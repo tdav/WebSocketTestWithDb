@@ -66,6 +66,7 @@ namespace App.Server.Admin
             });
 
 
+            builder.Services.AddScoped<IDataAdapter, DataAdapter>();
 
             builder.Services.AddMyAuthentication(builder.Configuration);
             builder.Services.AddMemoryCache();

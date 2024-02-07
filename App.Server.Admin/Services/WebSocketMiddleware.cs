@@ -38,7 +38,7 @@ namespace App.Server.Admin.Services
             this.next = next;
         }
 
-        public async Task Invoke(HttpContext context, ILogger<WebSocketMiddleware> logger, MyDbContext db)
+        public async Task Invoke(HttpContext context, ILogger<WebSocketMiddleware> logger, IDataAdapter dataAdapter)
         {
             var chargepointIdentifier = context.Request.Path.Value.Split('/').LastOrDefault();
 
@@ -70,61 +70,60 @@ namespace App.Server.Admin.Services
                 }
                 else
                 {
+                    chargePointStatus.Protocol = subProtocol;
+                    bool statusSuccess = false;
+
                     try
                     {
                         logger.LogTrace("OCPPMiddleware => Store/Update status object");
 
                         lock (ChargePointStatusDict)
                         {
-                            // Станция серверга янги уланганда борлигини текширилади
                             if (ChargePointStatusDict.ContainsKey(chargepointIdentifier))
                             {
-                                var ocs = ChargePointStatusDict[chargepointIdentifier];
-                                if (ocs.WebSocket != null && ocs.WebSocket.State != WebSocketState.Open)
+                                if (ChargePointStatusDict[chargepointIdentifier].WebSocket.State != WebSocketState.Open)
                                 {
                                     ChargePointStatusDict.Remove(chargepointIdentifier);
                                 }
 
                                 ChargePointStatusDict[chargepointIdentifier] = chargePointStatus;
                             }
-                            else
-                            {
-                                ChargePointStatusDict.Add(chargepointIdentifier, chargePointStatus);
-                            }
+
+                            ChargePointStatusDict.Add(chargepointIdentifier, chargePointStatus);
+                            statusSuccess = true;
                         }
-
-                        using (WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync(subProtocol))
-                        {
-                            await Task.Delay(100);
-
-                            logger.LogTrace($"OCPPMiddleware => WebSocket connection with charge point '{chargepointIdentifier}'");
-                            chargePointStatus.WebSocket = webSocket;
-                            var socketFinishedTcs = new TaskCompletionSource<string>();
-
-                            await HandlerAsync(chargepointIdentifier);
-
-                            await socketFinishedTcs.Task;
-                        }
-
                     }
                     catch (Exception exp)
                     {
                         logger.LogError($"OCPPMiddleware => SysConstants.ChargePointStatusDict Error:{exp.GetAllMessages()} Stack:{exp.GetStackTrace(5)}");
                         context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     }
+
+
+                    if (statusSuccess)
+                    {
+                        using (WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync(subProtocol))
+                        {
+                            logger.LogTrace($"OCPPMiddleware => WebSocket connection with charge point '{chargepointIdentifier}'");
+                            chargePointStatus.WebSocket = webSocket;
+                            var socketFinishedTcs = new TaskCompletionSource<string>();
+
+                            await dataAdapter.HandlerAsync(webSocket, chargepointIdentifier);
+
+                            await socketFinishedTcs.Task;
+                        }
+                    }
+
                 }
             }
-            else
+            else if (context.Request.Path.StartsWithSegments("/API"))
             {
                 await next.Invoke(context);
             }
         }
 
 
-        public Task HandlerAsync(string Name)
-        {
-            throw new NotImplementedException();
-        }
+
     }
 
 }
