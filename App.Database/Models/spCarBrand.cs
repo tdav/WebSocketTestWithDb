@@ -2,7 +2,7 @@
 
 namespace App.Database.Models
 {
-    public class spCarBrand
+    public class spCarBrand : SpBaseModels
     {
         [Key]
         public int Id { get; set; }

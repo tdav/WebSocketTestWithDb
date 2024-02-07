@@ -1,6 +1,4 @@
-﻿using App.Database.Models;
-
-namespace App.Repository.Models
+﻿namespace App.Repository.Models
 {
     public class viChargePointExt
     {
@@ -27,7 +25,6 @@ namespace App.Repository.Models
         public string Status { get; set; }
         public List<viQueueDriver> QueueDrivers { get; set; }
         public List<viConnectorSimple> Connectors { get; set; }
-        public tbInternetAccess InternetAccess { get; set; }
     }
 
 

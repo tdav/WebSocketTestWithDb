@@ -1,5 +1,4 @@
 ﻿using App.Database.Enums;
-using App.Database.Models;
 using Newtonsoft.Json;
 using System.Net.WebSockets;
 
@@ -9,27 +8,10 @@ namespace App.Repository.Models
     {
         private Dictionary<int, OnlineConnectorStatus> _onlineConnectors;
 
-        public ChargePointStatus(tbChargePoint chargePoint)
+        public ChargePointStatus(string chargePoint)
         {
-            KeyId = chargePoint.Id;
-            Id = chargePoint.ChargePointId;
-            Name = chargePoint.Name;
-
-            foreach (var it in chargePoint.Connectors)
-            {
-                var cc = new OnlineConnectorStatus()
-                {
-                    Throughput = it.Throughput,
-                    ConnectorTypeId = it.ConnectorTypeId,
-                    CurUserId = null,
-                    SoC = 0,
-                    MeterKWH = 0,
-                    ChargeRateKW = 0,
-                    Status = ConnectorStatusEnum.Undefined,
-                };
-
-                OnlineConnectors.Add(it.ConnectorId, cc);
-            }
+            Id = Guid.NewGuid().ToString("N");
+            Name = chargePoint;
         }
 
         public Dictionary<int, OnlineConnectorStatus> OnlineConnectors

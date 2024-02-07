@@ -4,7 +4,6 @@ using App.Models;
 using App.Repository.Extensions;
 using App.Repository.Models;
 using App.Utils;
-using App.Utils.Serializable;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Identity;
@@ -30,7 +29,6 @@ namespace App.Repository.Services.v1
 
         Task<AnswerBasic> UpdateProfile(viUserUpdateRequest model);
 
-        Task<Answer<TokenModel>> VerifySms(viSmsResponse vi);
         Task<Answer<TokenModel>> RefreshToken(RefreshTokenModel tokenModel);
         Task<AnswerBasic> Revoke(string username);
         Task<AnswerBasic> RevokeAll();
@@ -38,12 +36,6 @@ namespace App.Repository.Services.v1
         Task<AnswerBasic> ChangePassword(viChangePasswordModel value);
         Task<AnswerBasic> AdminChangePassword(viChangePasswordSmModel value);
         Task<AnswerBasic> AdminChangeStatus(viIdValue vi);
-
-        Task<AnswerBasic> DriverAccountRemoveSendSms(SmsRequest vi);
-        Task<AnswerBasic> DriverAccountRemove(viPhoneValue vi);
-        Task<AnswerBasic> DriverChangePassword(viValue vi);
-        Task<AnswerBasic> ResetPassword(SmsRequest vi);
-
 
 
         ValueTask<viUser[]> GetQueryableAsync(ODataQueryOptions<tbUser> options);
@@ -61,10 +53,9 @@ namespace App.Repository.Services.v1
         private readonly IMapper mapper;
         private readonly JwtVars vars;
         private readonly MyDbContext db;
-        private readonly ISesionService sesion;
 
         public UserIdentityService(UserManager<tbUser> userManager, IOptions<JwtVars> options, IOcppHttpContextAccessorExtensions accessor,
-            IMapper mapper, ILogger<UserIdentityService> logger, MyDbContext db, ISesionService sesion)
+            IMapper mapper, ILogger<UserIdentityService> logger, MyDbContext db)
         {
             vars = options.Value;
 
@@ -73,7 +64,6 @@ namespace App.Repository.Services.v1
             this.logger = logger;
             this.mapper = mapper;
             this.db = db;
-            this.sesion = sesion;
         }
 
         public async Task<Answer<TokenModel>> Login(viUserLogin model)
@@ -123,8 +113,6 @@ namespace App.Repository.Services.v1
                         //  RefreshToken = refreshToken
                     };
 
-
-                    await sesion.AddAsync(user.Id, accesses, model.PhoneNumber, model.DeviceId);
 
                     return new Answer<TokenModel>(true, "", res);
                 }
@@ -208,24 +196,10 @@ namespace App.Repository.Services.v1
 
                     await userManager.AddToRoleAsync(user, "Водители");
 
-                    var tag = new tbChargeTag()
-                    {
-                        TagId = model.PhoneNumber,
-                        TagName = $"",
-                        ParentTagId = user.Id.ToString(),
-                        Blocked = false,
-                        CreateDate = DateTime.Now,
-                        CreateUser = accessor.GetId(),
-                        ExpiryDate = DateTime.Now.AddYears(50),
-                        Status = 1,
-                    };
 
-                    await db.tbChargeTags.AddAsync(tag);
                     await db.SaveChangesAsync();
                 }
 
-
-                RequestSmsCode(model.PhoneNumber);
 
                 return new AnswerBasic(true, "");
             }
@@ -276,7 +250,6 @@ namespace App.Repository.Services.v1
 
                 await userManager.AddToRoleAsync(user, "Пользователь системы");
 
-                RequestSmsCode(model.PhoneNumber);
 
                 return new AnswerBasic(true, "");
             }
@@ -326,7 +299,6 @@ namespace App.Repository.Services.v1
 
                 await userManager.AddToRoleAsync(user, "Администратор");
 
-                RequestSmsCode(model.PhoneNumber);
 
                 return new AnswerBasic(true, "");
             }
@@ -561,97 +533,6 @@ namespace App.Repository.Services.v1
 
         }
 
-        public async Task<Answer<TokenModel>> VerifySms(viSmsResponse vi)
-        {
-            try
-            {
-                var exists = await db.tbSms.AsNoTracking()
-                                           .AnyAsync(x => x.PhoneNumber == vi.Phone &&
-                                                          x.Code == vi.Code &&
-                                                          x.CreateDate > DateTime.Now.AddMinutes(-3));
-                if (exists)
-                {
-                    var user = await userManager.FindByNameAsync(vi.Phone);
-                    if (user != null)
-                    {
-                        var userRoles = await userManager.GetRolesAsync(user);
-                        var accesses = string.Join(',', userRoles);
-                        var authClaims = new List<Claim>
-                        {
-                            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                            new Claim(ClaimTypes.Sid, user.Id.ToStr()),
-                                       new Claim(ClaimTypes.Name, $"{user.Surname} {user.Name} {user.Patronymic}"),
-                                       new Claim(ClaimTypes.Role, accesses),
-                                       new Claim(ClaimTypes.MobilePhone, user.PhoneNumber)
-                        };
-
-                        foreach (var userRole in userRoles)
-                        {
-                            authClaims.Add(new Claim(ClaimTypes.Role, userRole));
-                        }
-
-                        var token = CreateToken(authClaims);
-                        var refreshToken = GenerateRefreshToken();
-
-                        user.Verified = true;
-                        user.RefreshToken = refreshToken;
-                        user.RefreshTokenExpiryTime = DateTime.Now.AddDays(vars.RefreshTokenValidityInDays);
-                        await userManager.UpdateAsync(user);
-
-                        var res = new TokenModel
-                        {
-                            Id = user.Id.ToString(),
-                            UserInfo = $"{user.Surname} {user.Name} {user.Patronymic}",
-                            Surname = user.Surname,
-                            Name = user.Name,
-                            Patronymic = user.Patronymic,
-                            Accesses = accesses,
-                            Token = new JwtSecurityTokenHandler().WriteToken(token),
-                            RefreshToken = refreshToken
-                        };
-
-                        await sesion.AddAsync(user.Id, accesses, user.PhoneNumber, vi.DeviceId);
-
-                        return new Answer<TokenModel>(true, "", res);
-                    }
-
-                    logger.LogError($"UserIdentityService.VerifySms Phone хато Model:{vi.ToJson()}");
-                    return new Answer<TokenModel>(true, "Парол нотугри", null);
-                }
-                else
-                {
-                    logger.LogError($"UserIdentityService.VerifySms СМС код хато Model:{vi.ToJson()}");
-                    return new Answer<TokenModel>(false, "СМС код хато", null);
-                }
-            }
-            catch (Exception ee)
-            {
-                logger.LogError($"UserIdentityService.VerifySms Model:{vi.ToJson()} Error:{ee.GetAllMessages()}");
-                return new Answer<TokenModel>(false, "Тизимда хато", null);
-            }
-        }
-
-
-        private void RequestSmsCode(string phoneNumber)
-        {
-            Random rnd = new Random();
-            int ri = rnd.Next(1000, 9999);
-            var code = ri.ToString().PadLeft(4, '0');
-            var mesId = Guid.NewGuid().ToString("N").ToUpper();
-
-            var sh = new tbSms();
-            sh.PhoneNumber = phoneNumber;
-            sh.MesText = $"Kodi: {code}";
-            sh.Code = code;
-            sh.MessageId = mesId;
-            sh.CreateDate = DateTime.Now;
-            sh.CreateUser = accessor.GetId();
-            sh.StatusId = 1;
-
-            db.tbSms.Add(sh);
-            db.SaveChanges();
-        }
-
 
         public async Task<AnswerBasic> UpdateProfile(viUserUpdateRequest model)
         {
@@ -669,136 +550,6 @@ namespace App.Repository.Services.v1
             return new AnswerBasic(true, "Маълумотлар сақланди");
         }
 
-        public async Task<AnswerBasic> DriverAccountRemoveSendSms(SmsRequest vi)
-        {
-            try
-            {
-                var us = await db.Users.FirstOrDefaultAsync(x => x.UserName == vi.PhoneNumber);
-
-                if (us == null)
-                    return new AnswerBasic(false, "Берилган фойдаланувчи топилмади");
-
-                Random rnd = new Random();
-                int ri = rnd.Next(1000, 9999);
-                var code = ri.ToString().PadLeft(4, '0');
-                var mesId = Guid.NewGuid().ToString("N").ToUpper();
-
-                var sh = new tbSms();
-                sh.PhoneNumber = vi.PhoneNumber;
-                sh.MesText = $"Kodi: {code}";
-                sh.Code = code;
-                sh.MessageId = mesId;
-                sh.CreateDate = DateTime.Now;
-                sh.CreateUser = accessor.GetId();
-                sh.StatusId = 1;
-
-                db.tbSms.Add(sh);
-                db.SaveChanges();
-
-                return new AnswerBasic(true, "Маълумотлар сақланди");
-            }
-            catch (Exception ee)
-            {
-                logger.LogError($"UserIdentityService.DriverAccountRemove Error:{ee.GetAllMessages()} Stack:{ee.GetStackTrace(5)} ");
-                return new AnswerBasic(false, "Тизимда хато");
-            }
-        }
-
-        public async Task<AnswerBasic> DriverAccountRemove(viPhoneValue vi)
-        {
-            try
-            {
-                var sms = await db.tbSms.AsNoTracking().FirstOrDefaultAsync(x => x.PhoneNumber == vi.PhoneNumber && x.Code == vi.Value);
-                if (sms == null)
-                    return new AnswerBasic(false, "SMS код тугри келмади");
-                else if (sms.CreateDate.AddMinutes(3) < DateTime.Now)
-                    return new AnswerBasic(false, "SMS код эскирган");
-
-                var us = await db.Users.FirstOrDefaultAsync(x => x.UserName == vi.PhoneNumber);
-
-                if (us == null)
-                    return new AnswerBasic(false, "Берилган фойдаланувчи топилмади");
-
-                us.UserName = us.Id.ToStr();
-                us.NormalizedUserName = us.Id.ToStr();
-                us.Status = 0;
-                us.UpdateDate = DateTime.Now;
-
-                var tag = db.tbChargeTags.Find(vi.PhoneNumber);
-                if (tag != null)
-                    db.tbChargeTags.Remove(tag);
-
-                await db.SaveChangesAsync();
-
-                return new AnswerBasic(true, "Маълумотлар сақланди");
-            }
-            catch (Exception ee)
-            {
-                logger.LogError($"UserIdentityService.DriverAccountRemove Error:{ee.GetAllMessages()} Stack:{ee.GetStackTrace(5)} ");
-                return new AnswerBasic(false, "Тизимда хато");
-            }
-        }
-
-        public async Task<AnswerBasic> ResetPassword(SmsRequest vi)
-        {
-            try
-            {
-                tbUser user = await userManager.FindByNameAsync(vi.PhoneNumber);
-
-                if (user == null)
-                    return new AnswerBasic(false, "Фойдаланувчи топилмади");
-
-                Random rnd = new Random();
-                int ri = rnd.Next(1000, 9999);
-                var code = ri.ToString().PadLeft(4, '0');
-                var mesId = Guid.NewGuid().ToString("N").ToUpper();
-
-                var sh = new tbSms();
-                sh.PhoneNumber = vi.PhoneNumber;
-                sh.MesText = $"Kodi: {code}";
-                sh.Code = code;
-                sh.MessageId = mesId;
-                sh.CreateDate = DateTime.Now;
-                sh.CreateUser = accessor.GetId();
-                sh.StatusId = 1;
-
-                await db.tbSms.AddAsync(sh);
-                await db.SaveChangesAsync();
-
-                return new AnswerBasic(true, "");
-            }
-            catch (Exception ee)
-            {
-                logger.LogError($"UserIdentityService.ResetPassword Error:{ee.GetAllMessages()} Stack:{ee.GetStackTrace(5)}");
-                return new AnswerBasic(false, "Тизимда хато");
-            }
-        }
-
-        public async Task<AnswerBasic> DriverChangePassword(viValue vi)
-        {
-            try
-            {
-                var uid = accessor.GetId();
-                var user = await userManager.FindByIdAsync(uid.ToStr());
-                if (user == null) return new AnswerBasic(false, "Фойдаланувчи топилмади");
-
-                string token = await userManager.GeneratePasswordResetTokenAsync(user);
-
-                var res = await userManager.ResetPasswordAsync(user, token, vi.Value);
-                if (res.Succeeded)
-                    return new AnswerBasic(true, "");
-                else
-                {
-                    var ss = string.Join(", ", res.Errors.Select(x => x.Description).ToArray());
-                    return new AnswerBasic(false, ss);
-                }
-            }
-            catch (Exception ee)
-            {
-                logger.LogError($"UserIdentityService.DriverChangePassword Error:{ee.GetAllMessages()} Stack:{ee.GetStackTrace(5)} ");
-                return new AnswerBasic(false, "Тизимда хато");
-            }
-        }
 
         public async ValueTask<viUser[]> GetQueryableAsync(ODataQueryOptions<tbUser> options)
         {

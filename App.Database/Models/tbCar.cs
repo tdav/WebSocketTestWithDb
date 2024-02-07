@@ -26,6 +26,5 @@ namespace App.Database.Models
         public virtual spCarModel Model { get; set; }
 
         public Guid DriverId { get; set; }
-        public virtual tbUser Driver { get; set; }
     }
 }

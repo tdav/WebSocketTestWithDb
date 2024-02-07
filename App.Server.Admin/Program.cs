@@ -1,7 +1,5 @@
 using App.Database;
 using App.Models;
-using App.OpenTelemetry;
-using App.Repository;
 using App.Server.Admin.Services;
 using App.Utils;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -48,7 +46,6 @@ namespace App.Server.Admin
             builder.Services.ApiMyVersion();
             builder.Services.AddMySwagger();
             builder.Services.AddSerilog();
-            builder.Services.LoadApiPluginsService();
             builder.Services.AddMyResponseCompression();
 
             builder.Services.AddCors(options =>
@@ -74,8 +71,7 @@ namespace App.Server.Admin
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddMyDatabaseService(builder.Configuration);
 
-            builder.Services.AddMyOpenTelemetry(builder.Configuration);
-            builder.Services.AddMyOcppService();
+            builder.Services.AddScoped<IMiddlewareHandler, MiddlewareHandler>();
 
             builder.Services.AddScoped<ICRestClient, CRestClient>();
 
@@ -90,6 +86,10 @@ namespace App.Server.Admin
             });
 
             var app = builder.Build();
+
+            app.UseWebSockets();
+            app.UseMiddleware<WebSocketMiddleware>();
+
             app.UseResponseCaching();
             app.UseMySwagger();
             app.UseMyStaticFiles();
@@ -101,7 +101,6 @@ namespace App.Server.Admin
             app.UseForwardedHeaders(new ForwardedHeadersOptions { ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto });
             app.MapControllers();
 
-            app.UseMyOpenTelemetry();
             app.UseSerilogRequestLogging();
             app.UseResponseCompression();
             app.UpdateMigrateDatabase();

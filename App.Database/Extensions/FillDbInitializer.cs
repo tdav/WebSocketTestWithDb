@@ -1,6 +1,7 @@
 ﻿using App.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 
 namespace App.Database.Extensions
 {
@@ -12,8 +13,6 @@ namespace App.Database.Extensions
             var rg = Guid.Parse("1c095b27-d060-4ed1-9167-4c9745196e2e");
             var d1 = DateTime.Parse("2023-10-09");
 
-            modelBuilder.Entity<spInternetAccessType>().HasData(new spInternetAccessType() { Id = 1, Name = "Сим карта" });
-            modelBuilder.Entity<spInternetAccessType>().HasData(new spInternetAccessType() { Id = 2, Name = "Кабел" });
 
             #region Region District
             modelBuilder.Entity<spRegion>().HasData(new spRegion() { Id = 10, NameUz = "ТОШКЕНТ ШАҲРИ", Status = 1, CreateUser = g, CreateDate = d1 });
@@ -289,323 +288,148 @@ namespace App.Database.Extensions
 
             #endregion
 
-            #region spPaymentType
-            modelBuilder.Entity<spPaymentType>().HasData(new { Id = 1, NameUz = "PayMe", NameLt = "PayMe", NameRu = "PayMe", NameEn = "PayMe", CreateDate = d1, CreateUser = g, Status = 1 });
-            modelBuilder.Entity<spPaymentType>().HasData(new { Id = 2, NameUz = "Click", NameLt = "Click", NameRu = "Click", NameEn = "Click", CreateDate = d1, CreateUser = g, Status = 1 });
-            #endregion
+            modelBuilder.Entity<spCarBrand>().HasData(new { Id = 1, Name = "BMV", CreateDate = d1, CreateUser = g, Status = 1 });
+            modelBuilder.Entity<spCarBrand>().HasData(new { Id = 2, Name = "MERS", CreateDate = d1, CreateUser = g, Status = 1 });
+            modelBuilder.Entity<spCarBrand>().HasData(new { Id = 3, Name = "GM", CreateDate = d1, CreateUser = g, Status = 1 });
+            modelBuilder.Entity<spCarBrand>().HasData(new { Id = 4, Name = "BYD", CreateDate = d1, CreateUser = g, Status = 1 });
+            modelBuilder.Entity<spCarBrand>().HasData(new { Id = 5, Name = "CHERY", CreateDate = d1, CreateUser = g, Status = 1 });
+            modelBuilder.Entity<spCarBrand>().HasData(new { Id = 6, Name = "LI", CreateDate = d1, CreateUser = g, Status = 1 });
+            modelBuilder.Entity<spCarBrand>().HasData(new { Id = 7, Name = "GAZ", CreateDate = d1, CreateUser = g, Status = 1 });
+            modelBuilder.Entity<spCarBrand>().HasData(new { Id = 8, Name = "LAMBO", CreateDate = d1, CreateUser = g, Status = 1 });
+            modelBuilder.Entity<spCarBrand>().HasData(new { Id = 9, Name = "RENO", CreateDate = d1, CreateUser = g, Status = 1 });
 
-            #region spPromoCodeType
-            modelBuilder.Entity<spPromoCodeType>().HasData(new { Id = 1, NameUz = "Сумма бўичв", NameLt = "Summa bo`yicha", NameRu = "по Сумме", NameEn = "by Amout", CreateDate = d1, CreateUser = g, Status = 1 });
-            modelBuilder.Entity<spPromoCodeType>().HasData(new { Id = 2, NameUz = "Фоиз бўича", NameLt = "Foiz bo`yicha", NameRu = "по Проценту", NameEn = "by Percent", CreateDate = d1, CreateUser = g, Status = 1 });
-            #endregion
 
-            #region spPaymentStatus
-            modelBuilder.Entity<spPaymentStatus>().HasData(new { Id = 1, NameEn = "Pending", NameRu = "В ожидании", NameUz = "Кутилмоқда", NameLt = "Kutilmoqda", CreateDate = d1, CreateUser = g, Status = 1 });
-            modelBuilder.Entity<spPaymentStatus>().HasData(new { Id = 2, NameEn = "Completed", NameRu = "Завершенный", NameUz = "Тугатилган", NameLt = "Tugatilgan", CreateDate = d1, CreateUser = g, Status = 1 });
-            modelBuilder.Entity<spPaymentStatus>().HasData(new { Id = 3, NameEn = "Refunded", NameRu = "Возвращено", NameUz = "Қайтарилган", NameLt = "Qaytarilgan", CreateDate = d1, CreateUser = g, Status = 1 });
-            modelBuilder.Entity<spPaymentStatus>().HasData(new { Id = 4, NameEn = "Failed", NameRu = "Неуспешный", NameUz = "Ҳато", NameLt = "Xato", CreateDate = d1, CreateUser = g, Status = 1 });
-            modelBuilder.Entity<spPaymentStatus>().HasData(new { Id = 5, NameEn = "Abandoned", NameRu = "Заброшенный", NameUz = "Тўланмаган", NameLt = "To`lanmagan", CreateDate = d1, CreateUser = g, Status = 1 });
-            modelBuilder.Entity<spPaymentStatus>().HasData(new { Id = 6, NameEn = "Revoked", NameRu = "Отозван", NameUz = "Қайтарилган", NameLt = "Qaytarilgan", CreateDate = d1, CreateUser = g, Status = 1 });
-            modelBuilder.Entity<spPaymentStatus>().HasData(new { Id = 7, NameEn = "Cancelled", NameRu = "Отменено", NameUz = "Бекор қилинган", NameLt = "Bekor qilingan", CreateDate = d1, CreateUser = g, Status = 1 });
-            #endregion
+            modelBuilder.Entity<spCarModel>().HasData(
+                new spCarModel { Id = 1, BrandId = 3, Name = "SPARK", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 2, BrandId = 1, Name = "3-SERIES", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 3, BrandId = 4, Name = "TANG", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 4, BrandId = 2, Name = "E-CLASS", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 5, BrandId = 5, Name = "QQ", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 6, BrandId = 6, Name = "XIAO", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 7, BrandId = 7, Name = "GAZELLE", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 8, BrandId = 8, Name = "HURACAN", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 9, BrandId = 9, Name = "LOGAN", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 10, BrandId = 1, Name = "X5", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 11, BrandId = 3, Name = "AVEO", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 12, BrandId = 1, Name = "5-SERIES", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 13, BrandId = 4, Name = "ENCORE", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 14, BrandId = 2, Name = "S-CLASS", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 15, BrandId = 5, Name = "TIGGO", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 16, BrandId = 6, Name = "XING", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 17, BrandId = 7, Name = "SOBOL", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 18, BrandId = 8, Name = "GALLARDO", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 19, BrandId = 9, Name = "SANDERO", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 20, BrandId = 1, Name = "X7", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 21, BrandId = 3, Name = "MALIBU", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 22, BrandId = 1, Name = "7-SERIES", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 23, BrandId = 4, Name = "REGAL", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 24, BrandId = 2, Name = "GLC", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 25, BrandId = 5, Name = "ARRIZO", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 26, BrandId = 6, Name = "E6", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 27, BrandId = 7, Name = "TIGR", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 28, BrandId = 8, Name = "URUS", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 29, BrandId = 9, Name = "DUSTER", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 30, BrandId = 1, Name = "X1", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 31, BrandId = 3, Name = "CRUZE", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 32, BrandId = 1, Name = "X6", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 33, BrandId = 4, Name = "ENVISION", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 34, BrandId = 2, Name = "GLE", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 35, BrandId = 5, Name = "QQ3", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 36, BrandId = 6, Name = "XUAN", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 37, BrandId = 7, Name = "VOLGA", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 38, BrandId = 8, Name = "ASTERION", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 39, BrandId = 9, Name = "KAPTUR", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 40, BrandId = 1, Name = "X3", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 41, BrandId = 3, Name = "AVEO", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 42, BrandId = 1, Name = "X4", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 43, BrandId = 4, Name = "VERANO", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 44, BrandId = 2, Name = "GLA", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 45, BrandId = 5, Name = "QQ6", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 46, BrandId = 6, Name = "XUE", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 47, BrandId = 7, Name = "NEXT", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 48, BrandId = 8, Name = "HURACAN EVO", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 49, BrandId = 9, Name = "LATITUDE", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 50, BrandId = 1, Name = "X2", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 51, BrandId = 3, Name = "SPARK", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 52, BrandId = 1, Name = "I3", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 53, BrandId = 4, Name = "LACROSSE", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 54, BrandId = 2, Name = "GLB", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 55, BrandId = 5, Name = "TIGGO 2", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 56, BrandId = 6, Name = "XIAO", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 57, BrandId = 7, Name = "3110", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 58, BrandId = 8, Name = "ASTERION LPI 910-4", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 59, BrandId = 9, Name = "MEGANE", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 60, BrandId = 1, Name = "I8", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 61, BrandId = 3, Name = "MALIBU", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 62, BrandId = 1, Name = "I4", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 63, BrandId = 4, Name = "EXCELLE", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 64, BrandId = 2, Name = "GLS", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 65, BrandId = 5, Name = "TIGGO 3", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 66, BrandId = 6, Name = "XIAO", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 67, BrandId = 7, Name = "2752", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 68, BrandId = 8, Name = "CENTENARIO", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 69, BrandId = 9, Name = "KOLEOS", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 70, BrandId = 1, Name = "I9", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 71, BrandId = 3, Name = "CRUZE", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 72, BrandId = 1, Name = "I5", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 73, BrandId = 4, Name = "ROYAUM", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 74, BrandId = 2, Name = "CLA", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 75, BrandId = 5, Name = "ARRIZO 5", CreateDate = d1, CreateUser = g, Status = 1 },
+                new spCarModel { Id = 76, BrandId = 6, Name = "XIAO", CreateDate = d1, CreateUser = g, Status = 1 }
+              );
 
-            #region spUnit
-            modelBuilder.Entity<spUnit>().HasData(new spUnit
+
+            var cars = new List<tbCar>
             {
-                Id = 1,
-                ShortName = "C",
-                NameUz = "Целсий",
-                NameEn = "Celsius",
-                NameRu = "Целсий",
-                NameLt = "Selsiy",
-                CreateDate = d1,
-                CreateUser = g,
-                Status = 1
-            });
+                new tbCar { Id = 1, PlateNumber = "ABC123", VinCode = "VINCODE123", EVBatteryCapacity = 100, ChargingPerMinute = 0.5, BrandId = 3, ModelId = 1, DriverId = g },
+                new tbCar { Id = 2, PlateNumber = "DEF456", VinCode = "VINCODE456", EVBatteryCapacity = 120, ChargingPerMinute = 0.6, BrandId = 1, ModelId = 2, DriverId = g },
+                new tbCar { Id = 3, PlateNumber = "GHI789", VinCode = "VINCODE789", EVBatteryCapacity = 110, ChargingPerMinute = 0.7, BrandId = 4, ModelId = 3, DriverId = g },
+                new tbCar { Id = 4, PlateNumber = "JKL012", VinCode = "VINCODE012", EVBatteryCapacity = 130, ChargingPerMinute = 0.8, BrandId = 2, ModelId = 4, DriverId = g },
+                new tbCar { Id = 5, PlateNumber = "MNO345", VinCode = "VINCODE345", EVBatteryCapacity = 140, ChargingPerMinute = 0.9, BrandId = 5, ModelId = 5, DriverId = g },
+                new tbCar { Id = 6, PlateNumber = "PQR678", VinCode = "VINCODE678", EVBatteryCapacity = 150, ChargingPerMinute = 1.0, BrandId = 6, ModelId = 6, DriverId = g },
+                new tbCar { Id = 7, PlateNumber = "STU901", VinCode = "VINCODE901", EVBatteryCapacity = 160, ChargingPerMinute = 1.1, BrandId = 7, ModelId = 7, DriverId = g },
+                new tbCar { Id = 8, PlateNumber = "VWX234", VinCode = "VINCODE234", EVBatteryCapacity = 170, ChargingPerMinute = 1.2, BrandId = 8, ModelId = 8, DriverId = g },
+                new tbCar { Id = 9, PlateNumber = "YZA567", VinCode = "VINCODE567", EVBatteryCapacity = 180, ChargingPerMinute = 1.3, BrandId = 9, ModelId = 9, DriverId = g },
+                new tbCar { Id = 10, PlateNumber = "BCD890", VinCode = "VINCODE890", EVBatteryCapacity = 190, ChargingPerMinute = 1.4, BrandId = 1, ModelId = 10, DriverId = g },
+                new tbCar { Id = 11, PlateNumber = "EFG123", VinCode = "VINCODE123", EVBatteryCapacity = 200, ChargingPerMinute = 1.5, BrandId = 3, ModelId = 11, DriverId = g },
+                new tbCar { Id = 12, PlateNumber = "HIJ456", VinCode = "VINCODE456", EVBatteryCapacity = 210, ChargingPerMinute = 1.6, BrandId = 1, ModelId = 12, DriverId = g },
+                new tbCar { Id = 13, PlateNumber = "KLM789", VinCode = "VINCODE789", EVBatteryCapacity = 220, ChargingPerMinute = 1.7, BrandId = 4, ModelId = 13, DriverId = g },
+                new tbCar { Id = 14, PlateNumber = "NOP012", VinCode = "VINCODE012", EVBatteryCapacity = 230, ChargingPerMinute = 1.8, BrandId = 2, ModelId = 14, DriverId = g },
+                new tbCar { Id = 15, PlateNumber = "QRS345", VinCode = "VINCODE345", EVBatteryCapacity = 240, ChargingPerMinute = 1.9, BrandId = 5, ModelId = 15, DriverId = g },
+                new tbCar { Id = 16, PlateNumber = "TUV678", VinCode = "VINCODE678", EVBatteryCapacity = 250, ChargingPerMinute = 2.0, BrandId = 6, ModelId = 16, DriverId = g },
+                new tbCar { Id = 17, PlateNumber = "WXYZ01", VinCode = "VINCODE901", EVBatteryCapacity = 260, ChargingPerMinute = 2.1, BrandId = 7, ModelId = 17, DriverId = g },
+                new tbCar { Id = 18, PlateNumber = "YZA234", VinCode = "VINCODE234", EVBatteryCapacity = 270, ChargingPerMinute = 2.2, BrandId = 8, ModelId = 18, DriverId = g },
+                new tbCar { Id = 19, PlateNumber = "BCD567", VinCode = "VINCODE567", EVBatteryCapacity = 280, ChargingPerMinute = 2.3, BrandId = 9, ModelId = 19, DriverId = g },
+                new tbCar { Id = 20, PlateNumber = "EFG890", VinCode = "VINCODE890", EVBatteryCapacity = 290, ChargingPerMinute = 2.4, BrandId = 1, ModelId = 20, DriverId = g }
+            };
+            modelBuilder.Entity<tbCar>().HasData(cars);
 
-            modelBuilder.Entity<spUnit>().HasData(new spUnit
+            var queueDrivers = new List<tbQueueDriver>
             {
-                Id = 2,
-                ShortName = "A",
-                NameUz = "Ампер",
-                NameRu = "Ампер",
-                NameLt = "Amper",
-                NameEn = "Amper",
-                CreateDate = d1,
-                CreateUser = g,
-                Status = 1
-            });
+                new tbQueueDriver { Id = 1, PhoneNumber = "1234567890", PlateNumber = "ABC123", BeginTime = DateTime.Now, EndTime = DateTime.Now.AddHours(1), UserInfo = "UserInfo1", Comment = "Comment1", CancelReason = "CancelReason1", CreateUser = g, Status = 1, ConnectorId = 1, CarId = 1 },
+                new tbQueueDriver { Id = 2, PhoneNumber = "2345678901", PlateNumber = "DEF456", BeginTime = DateTime.Now, EndTime = DateTime.Now.AddHours(2), UserInfo = "UserInfo2", Comment = "Comment2", CancelReason = "CancelReason2", CreateUser = g, Status = 1, ConnectorId = 2, CarId = 2 },
+                new tbQueueDriver { Id = 3, PhoneNumber = "3456789012", PlateNumber = "GHI789", BeginTime = DateTime.Now, EndTime = DateTime.Now.AddHours(3), UserInfo = "UserInfo3", Comment = "Comment3", CancelReason = "CancelReason3", CreateUser = g, Status = 1, ConnectorId = 3, CarId = 3 },
+                new tbQueueDriver { Id = 4, PhoneNumber = "4567890123", PlateNumber = "JKL012", BeginTime = DateTime.Now, EndTime = DateTime.Now.AddHours(4), UserInfo = "UserInfo4", Comment = "Comment4", CancelReason = "CancelReason4", CreateUser = g, Status = 1, ConnectorId = 4, CarId = 4 },
+                new tbQueueDriver { Id = 5, PhoneNumber = "5678901234", PlateNumber = "MNO345", BeginTime = DateTime.Now, EndTime = DateTime.Now.AddHours(5), UserInfo = "UserInfo5", Comment = "Comment5", CancelReason = "CancelReason5", CreateUser = g, Status = 1, ConnectorId = 5, CarId = 5 },
+                new tbQueueDriver { Id = 6, PhoneNumber = "6789012345", PlateNumber = "PQR678", BeginTime = DateTime.Now, EndTime = DateTime.Now.AddHours(6), UserInfo = "UserInfo6", Comment = "Comment6", CancelReason = "CancelReason6", CreateUser = g, Status = 1, ConnectorId = 6, CarId = 6 },
+                new tbQueueDriver { Id = 7, PhoneNumber = "7890123456", PlateNumber = "STU901", BeginTime = DateTime.Now, EndTime = DateTime.Now.AddHours(7), UserInfo = "UserInfo7", Comment = "Comment7", CancelReason = "CancelReason7", CreateUser = g, Status = 1, ConnectorId = 7, CarId = 7 },
+                new tbQueueDriver { Id = 8, PhoneNumber = "8901234567", PlateNumber = "VWX234", BeginTime = DateTime.Now, EndTime = DateTime.Now.AddHours(8), UserInfo = "UserInfo8", Comment = "Comment8", CancelReason = "CancelReason8", CreateUser = g, Status = 1, ConnectorId = 8, CarId = 8 },
+                new tbQueueDriver { Id = 9, PhoneNumber = "9012345678", PlateNumber = "YZA567", BeginTime = DateTime.Now, EndTime = DateTime.Now.AddHours(9), UserInfo = "UserInfo9", Comment = "Comment9", CancelReason = "CancelReason9", CreateUser = g, Status = 1, ConnectorId = 9, CarId = 9 },
+                new tbQueueDriver { Id = 10, PhoneNumber = "0123456789", PlateNumber = "BCD890", BeginTime = DateTime.Now, EndTime = DateTime.Now.AddHours(10), UserInfo = "UserInfo10", Comment = "Comment10", CancelReason = "CancelReason10", CreateUser = g, Status = 1, ConnectorId = 10, CarId = 10 },
+                new tbQueueDriver { Id = 11, PhoneNumber = "1234567890", PlateNumber = "EFG123", BeginTime = DateTime.Now, EndTime = DateTime.Now.AddHours(11), UserInfo = "UserInfo11", Comment = "Comment11", CancelReason = "CancelReason11", CreateUser = g, Status = 1, ConnectorId = 11, CarId = 11 },
+                new tbQueueDriver { Id = 12, PhoneNumber = "2345678901", PlateNumber = "HIJ456", BeginTime = DateTime.Now, EndTime = DateTime.Now.AddHours(12), UserInfo = "UserInfo12", Comment = "Comment12", CancelReason = "CancelReason12", CreateUser = g, Status = 1, ConnectorId = 12, CarId = 12 },
+                new tbQueueDriver { Id = 13, PhoneNumber = "3456789012", PlateNumber = "KLM789", BeginTime = DateTime.Now, EndTime = DateTime.Now.AddHours(13), UserInfo = "UserInfo13", Comment = "Comment13", CancelReason = "CancelReason13", CreateUser = g, Status = 1, ConnectorId = 13, CarId = 13 },
+                new tbQueueDriver { Id = 14, PhoneNumber = "4567890123", PlateNumber = "NOP012", BeginTime = DateTime.Now, EndTime = DateTime.Now.AddHours(14), UserInfo = "UserInfo14", Comment = "Comment14", CancelReason = "CancelReason14", CreateUser = g, Status = 1, ConnectorId = 14, CarId = 14 },
+                new tbQueueDriver { Id = 15, PhoneNumber = "5678901234", PlateNumber = "QRS345", BeginTime = DateTime.Now, EndTime = DateTime.Now.AddHours(15), UserInfo = "UserInfo15", Comment = "Comment15", CancelReason = "CancelReason15", CreateUser = g, Status = 1, ConnectorId = 15, CarId = 15 },
+                new tbQueueDriver { Id = 16, PhoneNumber = "6789012345", PlateNumber = "TUV678", BeginTime = DateTime.Now, EndTime = DateTime.Now.AddHours(16), UserInfo = "UserInfo16", Comment = "Comment16", CancelReason = "CancelReason16", CreateUser = g, Status = 1, ConnectorId = 16, CarId = 16 },
+                new tbQueueDriver { Id = 17, PhoneNumber = "7890123456", PlateNumber = "WXYZ01", BeginTime = DateTime.Now, EndTime = DateTime.Now.AddHours(17), UserInfo = "UserInfo17", Comment = "Comment17", CancelReason = "CancelReason17", CreateUser = g, Status = 1, ConnectorId = 17, CarId = 17 },
+                new tbQueueDriver { Id = 18, PhoneNumber = "8901234567", PlateNumber = "YZA234", BeginTime = DateTime.Now, EndTime = DateTime.Now.AddHours(18), UserInfo = "UserInfo18", Comment = "Comment18", CancelReason = "CancelReason18", CreateUser = g, Status = 1, ConnectorId = 18, CarId = 18 },
+                new tbQueueDriver { Id = 19, PhoneNumber = "9012345678", PlateNumber = "BCD567", BeginTime = DateTime.Now, EndTime = DateTime.Now.AddHours(19), UserInfo = "UserInfo19", Comment = "Comment19", CancelReason = "CancelReason19", CreateUser = g, Status = 1, ConnectorId = 19, CarId = 19 },
+                new tbQueueDriver { Id = 20, PhoneNumber = "0123456789", PlateNumber = "EFG890", BeginTime = DateTime.Now, EndTime = DateTime.Now.AddHours(20), UserInfo = "UserInfo20", Comment = "Comment20", CancelReason = "CancelReason20", CreateUser = g, Status = 2, ConnectorId = 20, CarId = 20 }
+            };
 
-            modelBuilder.Entity<spUnit>().HasData(new spUnit
-            {
-                Id = 3,
-                ShortName = "%",
-                NameUz = "Фоиз",
-                NameRu = "Процент",
-                NameLt = "Foiz",
-                NameEn = "Percent",
-                CreateDate = d1,
-                CreateUser = g,
-                Status = 1
-            });
+            modelBuilder.Entity<tbQueueDriver>().HasData(queueDrivers);
 
-            modelBuilder.Entity<spUnit>().HasData(new spUnit
-            {
-                Id = 4,
-                ShortName = "Вт",
-                NameUz = "Ватт",
-                NameRu = "Ватт",
-                NameLt = "Wat",
-                NameEn = "Watt",
-                CreateDate = d1,
-                CreateUser = g,
-                Status = 1
-            });
-
-            modelBuilder.Entity<spUnit>().HasData(new spUnit
-            {
-                Id = 5,
-                ShortName = "В",
-                NameUz = "Вольт",
-                NameRu = "Вольт",
-                NameLt = "Volt",
-                NameEn = "Volt",
-                CreateDate = d1,
-                CreateUser = g,
-                Status = 1
-            });
-
-            modelBuilder.Entity<spUnit>().HasData(new spUnit
-            {
-                Id = 6,
-                ShortName = "Вт/ч",
-                NameUz = "Ватт-соат",
-                NameRu = "Ватт-час",
-                NameLt = "Vat-soat",
-                NameEn = "watt-hour",
-                CreateDate = d1,
-                CreateUser = g,
-                Status = 1
-            });
-
-            modelBuilder.Entity<spUnit>().HasData(new spUnit
-            {
-                Id = 7,
-                ShortName = "кВт/ч",
-                NameUz = "Киловатт-соат",
-                NameRu = "Киловатт-час",
-                NameLt = "Kilovat-soat",
-                NameEn = "Kilowatt-hour",
-                CreateDate = d1,
-                CreateUser = g,
-                Status = 1
-            });
-            #endregion
-
-            #region spSmsStatus
-            modelBuilder.Entity<spSmsStatus>().HasData(new spSmsStatus { Id = 1, NameEn = "SMS delivered", NameRu = "СМС доставлено", NameUz = "СМС ЕТКАЗИЛДИ", NameLt = "SMS etkazildi", Status = 1, CreateDate = d1, CreateUser = g });
-            modelBuilder.Entity<spSmsStatus>().HasData(new spSmsStatus { Id = 2, NameEn = "Send error", NameRu = "Ошибка отправки", NameUz = "Юборишда хато", NameLt = "Yuborishda хato", Status = 1, CreateDate = d1, CreateUser = g });
-            modelBuilder.Entity<spSmsStatus>().HasData(new spSmsStatus { Id = 3, NameEn = "Pending", NameRu = "В ожидании", NameUz = "Кутилмоқда", NameLt = "Kutilmoqda", Status = 1, CreateDate = d1, CreateUser = g });
-            #endregion
-
-            #region spConnectorType
-            modelBuilder.Entity<spConnectorType>().HasData(new spConnectorType()
-            {
-                Id = 1,
-                Name = "TYPE 1 J1772",
-                Type = "AC",
-                Country = "Japon",
-                ImageUrl = "TYPE_1_J1772_AC_Japon.png",
-                Status = 1,
-                CreateUser = g,
-                CreateDate = d1,
-            });
-
-            modelBuilder.Entity<spConnectorType>().HasData(new spConnectorType()
-            {
-                Id = 2,
-                Name = "GB/T",
-                Type = "AC",
-                Country = "China",
-                ImageUrl = "GB_T_AC_China.png",
-                Status = 1,
-                CreateUser = g,
-                CreateDate = d1,
-            });
-
-            modelBuilder.Entity<spConnectorType>().HasData(new spConnectorType()
-            {
-                Id = 3,
-                Name = "TYPE 1 J1772",
-                Type = "AC",
-                Country = "America",
-                ImageUrl = "TYPE_1_J1772_AC_America.png",
-                Status = 1,
-                CreateUser = g,
-                CreateDate = d1,
-            });
-
-            modelBuilder.Entity<spConnectorType>().HasData(new spConnectorType()
-            {
-                Id = 4,
-                Name = "TYPE 2",
-                Type = "AC",
-                Country = "Europe",
-                ImageUrl = "TYPE_2_AC_Europe.png",
-                Status = 1,
-                CreateUser = g,
-                CreateDate = d1,
-            });
-
-            modelBuilder.Entity<spConnectorType>().HasData(new spConnectorType()
-            {
-                Id = 5,
-                Name = "CHAdeMO",
-                Type = "DC",
-                Country = "Japon",
-                ImageUrl = "CHAdeMO_Japon.png",
-                Status = 1,
-                CreateUser = g,
-                CreateDate = d1,
-            });
-
-            modelBuilder.Entity<spConnectorType>().HasData(new spConnectorType()
-            {
-                Id = 6,
-                Name = "GB/T",
-                Type = "DC",
-                Country = "China",
-                ImageUrl = "GB_T_DC_China.png",
-                Status = 1,
-                CreateUser = g,
-                CreateDate = d1,
-            });
-
-            modelBuilder.Entity<spConnectorType>().HasData(new spConnectorType()
-            {
-                Id = 7,
-                Name = "CCS-TYPE 1",
-                Type = "DC",
-                Country = "America",
-                ImageUrl = "CCS-TYPE_1_America.png",
-                Status = 1,
-                CreateUser = g,
-                CreateDate = d1,
-            });
-
-            modelBuilder.Entity<spConnectorType>().HasData(new spConnectorType()
-            {
-                Id = 8,
-                Name = "CCS-TYPE 2",
-                Type = "DC",
-                Country = "Europe",
-                ImageUrl = "CCS-TYPE_2_Europe.png",
-                Status = 1,
-                CreateUser = g,
-                CreateDate = d1,
-            });
-
-            modelBuilder.Entity<spConnectorType>().HasData(new spConnectorType()
-            {
-                Id = 9,
-                Name = "TESLA",
-                Type = "DC",
-                Country = "Europe",
-                ImageUrl = "TESLA.png",
-                Status = 1,
-                CreateUser = g,
-                CreateDate = d1,
-            });
-            #endregion
-
-            #region spStatus Data Init
-            modelBuilder.Entity<tbChargePoint>().HasData(new tbChargePoint()
-            {
-                Id = 1,
-                ChargePointId = "TEST1234",
-                Name = "TEST1234",
-                Latitude = 41.284135,
-                Longitude = 69.211267,
-                RegionId = 10,
-                DistrictId = 1007,
-                Status = 1,
-                CreateUser = g,
-                CreateDate = d1,
-            });
-
-            modelBuilder.Entity<tbChargePoint>().HasData(new tbChargePoint()
-            {
-                Id = 2,
-                ChargePointId = "TEST3333",
-                Name = "TEST3333",
-                Latitude = 41.313863,
-                Longitude = 69.222854,
-                RegionId = 10,
-                DistrictId = 1006,
-                Status = 1,
-                CreateUser = g,
-                CreateDate = d1,
-            });
-
-            modelBuilder.Entity<tbChargePoint>().HasData(new tbChargePoint()
-            {
-                Id = 3,
-                ChargePointId = "22E05701",
-                Name = "22E05701",
-                Latitude = 41.331731,
-                Longitude = 69.301874,
-                RegionId = 10,
-                DistrictId = 1002,
-                Status = 1,
-                CreateUser = g,
-                CreateDate = d1,
-            });
-            #endregion
-
-            #region tbChargeTag
-            modelBuilder.Entity<tbChargeTag>().HasData(new tbChargeTag()
-            {
-                ExpiryDate = d1.AddYears(10),
-                TagId = "B4A63CDF",
-                TagName = "B4A63CDF",
-                Blocked = false,
-                Status = 1,
-                CreateUser = g,
-                CreateDate = d1,
-            });
-
-            modelBuilder.Entity<tbChargeTag>().HasData(new tbChargeTag()
-            {
-                ExpiryDate = d1.AddYears(10),
-                TagId = "998278960",
-                TagName = "TASIBAEYEV DAVRON",
-                Blocked = false,
-                Status = 1,
-                CreateUser = g,
-                ParentTagId = "d4b563be-8926-46e8-b377-3de7bf096c08",
-                CreateDate = d1,
-            });
-
-            modelBuilder.Entity<tbChargeTag>().HasData(new tbChargeTag()
-            {
-                ExpiryDate = d1.AddYears(90),
-                TagId = "000000000",
-                TagName = "Ручная активация",
-                Blocked = false,
-                Status = 1,
-                CreateUser = g,
-                ParentTagId = "9613d012-c4f5-4986-b885-ca5863e12344",
-                CreateDate = d1,
-            });
-
-            #endregion
-
-            modelBuilder.Entity<spServiceType>().HasData(new spServiceType() { Id = 1, NameRu = "Зарядка автомобильная", NameEn = "Charging the car", NameLt = "Avtomobilni zaryadlash", NameUz = "Автомобилни зарядлаш", Status = 1, CreateUser = g, CreateDate = d1 });
-            modelBuilder.Entity<tbPrice>().HasData(new tbPrice() { Id = 1, Summa = 2000, ServiceTypeId = 1, ActivateDate = DateTime.Parse("2023-01-01 00:00:00"), Status = 1, CreateUser = g, CreateDate = d1 });
-            modelBuilder.Entity<tbPrice>().HasData(new tbPrice() { Id = 2, Summa = 5000, ServiceTypeId = 1, ActivateDate = DateTime.Parse("2024-01-01 00:00:00"), Status = 1, CreateUser = g, CreateDate = d1 });
-
-            modelBuilder.Entity<JsonDataConnectionDescription>().HasData(new JsonDataConnectionDescription() { Id = 1, Name = "JsonProducts", DisplayName = "Json Data", ConnectionString = "Uri=Data/nwind.json" });
-            modelBuilder.Entity<SqlDataConnectionDescription>().HasData(new SqlDataConnectionDescription() { Id = 2, Name = "DBConnection", DisplayName = "Ocpp Data Connection", ConnectionString = "XpoProvider=Postgres; Server=localhost; Database=ocpp_trianon_db; User ID=postgres; Password=1; Encoding=UNICODE" });
 
         }
 

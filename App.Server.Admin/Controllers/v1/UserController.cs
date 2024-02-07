@@ -70,12 +70,7 @@ namespace App.Server.Admin.Controllers.v1
             return service.UpdateProfile(model);
         }
 
-        [AllowAnonymous]
-        [HttpPost("VerifySms")]
-        public Task<Answer<TokenModel>> VerifySms(viSmsResponse vi)
-        {
-            return service.VerifySms(vi);
-        }
+
 
         [HttpPost("Revoke")]
         public Task<AnswerBasic> Revoke(string username)
@@ -108,34 +103,6 @@ namespace App.Server.Admin.Controllers.v1
         {
             return service.AdminChangeStatus(vi);
         }
-
-        [AllowAnonymous]
-        [HttpPost("DriverAccountRemoveSendSms")]
-        public Task<AnswerBasic> DriverAccountRemoveSendSms(SmsRequest vi)
-        {
-            return service.DriverAccountRemoveSendSms(vi);
-        }
-
-        [AllowAnonymous]
-        [HttpPost("DriverAccountRemove")]
-        public Task<AnswerBasic> DriverAccountRemove(viPhoneValue vi)
-        {
-            return service.DriverAccountRemove(vi);
-        }
-
-        [AllowAnonymous]
-        [HttpPost("ResetPassword")]
-        public Task<AnswerBasic> ResetPassword(SmsRequest vi)
-        {
-            return service.ResetPassword(vi);
-        }
-
-        [HttpPost("DriverChangePassword")]
-        public Task<AnswerBasic> DriverChangePassword(viValue vi)
-        {
-            return service.DriverChangePassword(vi);
-        }
-
 
         [EnableQuery]
         [ODataAttributeRouting]

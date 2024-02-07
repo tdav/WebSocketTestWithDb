@@ -40,7 +40,8 @@ namespace App.Database.Models
 
         public int ConnectorId { get; set; }
 
-        public int ChargePointId { get; set; }
-        public virtual tbChargePoint ChargePoint { get; set; }
+        public int CarId { get; set; }
+        public virtual tbCar Car { get; set; }
+
     }
 }

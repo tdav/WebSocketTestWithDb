@@ -43,17 +43,5 @@ namespace App.Server.Admin.Controllers.v1
         {
             return service.GetByChargePointAsync(id);
         }
-
-        [HttpPost("Insert")]
-        public ValueTask<Answer<viQueueDriverResponce>> InsertAsync(viQueueDriverReqest value)
-        {
-            return service.InsertAsync(value);
-        }
-
-        [HttpPost("Delete")]
-        public ValueTask<AnswerBasic> DeleteAsync(viQueueDriverCancel val)
-        {
-            return service.DeleteAsync(val);
-        }
     }
 }

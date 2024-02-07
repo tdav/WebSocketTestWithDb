@@ -57,9 +57,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\App.Utils\App.Utils.csproj" />
 		<ProjectReference Include="..\App.Database\App.Database.csproj" />
-		<ProjectReference Include="..\App.Interfaces\App.Interfaces.csproj" />
-		<ProjectReference Include="..\App.Models\App.Models.csproj" />
-		<ProjectReference Include="..\App.OpenTelemetry\App.OpenTelemetry.csproj" />		
+		<ProjectReference Include="..\App.Models\App.Models.csproj" />		
 		<ProjectReference Include="..\App.Repository\App.Repository.csproj" />
 		<ProjectReference Include="..\App.Utils\App.Utils.csproj" />
 	</ItemGroup>
