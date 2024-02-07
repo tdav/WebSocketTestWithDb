@@ -1,0 +1,18 @@
+{
+  "name": "Ocpp.Reporting",
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "@devexpress/analytics-core": "23.1.6",
+    "bootstrap": "^4.3.1",
+    "cldr-data": "^36.0.1",
+    "devexpress-dashboard": "23.1.6",
+    "devexpress-reporting": "23.1.6",
+    "devextreme-dist": "23.1.6"
+  },
+  "devDependencies": {
+    "devextreme-cldr-data": "^1.0.3",
+    "globalize": "^1.7.0"
+  }
+}

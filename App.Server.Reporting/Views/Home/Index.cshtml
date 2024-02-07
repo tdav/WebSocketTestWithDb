@@ -1,0 +1,14 @@
+@* <div>Auth</div>
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+    if (token) {
+        sessionStorage.setItem('ocpp-report-token', token)
+        const reportName = urlParams.get('rn');
+        const reportType = urlParams.get('rt');
+
+        window.location.replace("/" + reportType + "/" + reportName)
+    } else {
+        window.location.replace("/error");
+    }
+</script> *@

@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Dashboard>
+  <Title Text="D1" />
+  <DataSources>
+    <SqlDataSource Name="sp_districts" ComponentName="sqlDataSource1">
+      <Connection Name="DBConnection" FromAppConfig="true" />
+      <Query Type="SelectQuery" Name="sp_districts">
+        <Tables>
+          <Table Name="sp_districts" />
+        </Tables>
+        <Columns>
+          <Column Table="sp_districts" Name="id" />
+          <Column Table="sp_districts" Name="region_id" />
+          <Column Table="sp_districts" Name="status" />
+          <Column Table="sp_districts" Name="create_user" />
+          <Column Table="sp_districts" Name="update_user" />
+          <Column Table="sp_districts" Name="create_date" />
+          <Column Table="sp_districts" Name="update_date" />
+          <Column Table="sp_districts" Name="name_uz" />
+          <Column Table="sp_districts" Name="name_lt" />
+          <Column Table="sp_districts" Name="name_ru" />
+          <Column Table="sp_districts" Name="name_en" />
+        </Columns>
+      </Query>
+      <ConnectionOptions CloseConnection="true" />
+    </SqlDataSource>
+  </DataSources>
+  <Items>
+    <Grid ComponentName="gridDashboardItem1" Name="Grid 1" DataSource="sqlDataSource1" DataMember="sp_districts">
+      <DataItems>
+        <Measure DataMember="id" SummaryType="Count" DefaultId="DataItem0" />
+        <Dimension DataMember="name_uz" DefaultId="DataItem1" />
+        <Measure DataMember="status" DefaultId="DataItem2" />
+      </DataItems>
+      <GridColumns>
+        <GridMeasureColumn>
+          <Measure DefaultId="DataItem0" />
+        </GridMeasureColumn>
+        <GridDimensionColumn>
+          <Dimension DefaultId="DataItem1" />
+        </GridDimensionColumn>
+        <GridMeasureColumn>
+          <Measure DefaultId="DataItem2" />
+        </GridMeasureColumn>
+      </GridColumns>
+      <GridOptions />
+      <ColumnFilterOptions />
+    </Grid>
+    <Chart ComponentName="chartDashboardItem1" Name="Chart 1" DataSource="sqlDataSource1" DataMember="sp_districts">
+      <DataItems>
+        <Measure DataMember="id" DefaultId="DataItem0" />
+        <Dimension DataMember="status" DefaultId="DataItem1" />
+        <Dimension DataMember="region_id" DefaultId="DataItem2" />
+      </DataItems>
+      <SeriesDimensions>
+        <SeriesDimension DefaultId="DataItem1" />
+      </SeriesDimensions>
+      <Arguments>
+        <Argument DefaultId="DataItem2" />
+      </Arguments>
+      <Panes>
+        <Pane Name="Pane 1">
+          <Series>
+            <Simple>
+              <Value DefaultId="DataItem0" />
+            </Simple>
+          </Series>
+        </Pane>
+      </Panes>
+    </Chart>
+  </Items>
+  <LayoutTree>
+    <LayoutGroup>
+      <LayoutItem DashboardItem="chartDashboardItem1" />
+      <LayoutItem DashboardItem="gridDashboardItem1" />
+    </LayoutGroup>
+  </LayoutTree>
+</Dashboard>

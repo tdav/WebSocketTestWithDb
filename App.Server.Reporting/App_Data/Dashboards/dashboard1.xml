@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Dashboard>
+  <Title Text="New Dashboard" />
+  <DataSources>
+    <SqlDataSource Name="t1" ComponentName="sqlDataSource1">
+      <Connection Name="DBConnection" FromAppConfig="true" />
+      <Query Type="SelectQuery" Name="t1">
+        <Tables>
+          <Table Name="sp_districts" Alias="t1" />
+        </Tables>
+        <Columns>
+          <Column Table="t1" Name="id" />
+          <Column Table="t1" Name="region_id" />
+          <Column Table="t1" Name="status" />
+          <Column Table="t1" Name="create_user" />
+          <Column Table="t1" Name="update_user" />
+          <Column Table="t1" Name="create_date" />
+          <Column Table="t1" Name="update_date" />
+          <Column Table="t1" Name="name_uz" />
+          <Column Table="t1" Name="name_lt" />
+          <Column Table="t1" Name="name_ru" />
+          <Column Table="t1" Name="name_en" />
+        </Columns>
+      </Query>
+      <ConnectionOptions CloseConnection="true" />
+    </SqlDataSource>
+  </DataSources>
+  <Items>
+    <Grid ComponentName="gridDashboardItem1" Name="Grid 1" DataSource="sqlDataSource1" DataMember="t1">
+      <DataItems>
+        <Measure DataMember="id" DefaultId="DataItem0" />
+        <Dimension DataMember="region_id" DefaultId="DataItem1" />
+      </DataItems>
+      <GridColumns>
+        <GridMeasureColumn>
+          <Measure DefaultId="DataItem0" />
+        </GridMeasureColumn>
+      </GridColumns>
+      <SparklineArgument DefaultId="DataItem1" />
+      <GridOptions />
+      <ColumnFilterOptions />
+    </Grid>
+    <Pie ComponentName="pieDashboardItem1" Name="Pies 1" DataSource="sqlDataSource1" DataMember="t1">
+      <DataItems>
+        <Measure DataMember="id" DefaultId="DataItem0" />
+        <Dimension DataMember="region_id" DefaultId="DataItem1" />
+        <Dimension DataMember="status" DefaultId="DataItem2" />
+      </DataItems>
+      <SeriesDimensions>
+        <SeriesDimension DefaultId="DataItem2" />
+      </SeriesDimensions>
+      <Arguments>
+        <Argument DefaultId="DataItem1" />
+      </Arguments>
+      <Values>
+        <Value DefaultId="DataItem0" />
+      </Values>
+    </Pie>
+  </Items>
+  <LayoutTree>
+    <LayoutGroup>
+      <LayoutItem DashboardItem="pieDashboardItem1" />
+      <LayoutItem DashboardItem="gridDashboardItem1" />
+    </LayoutGroup>
+  </LayoutTree>
+</Dashboard>

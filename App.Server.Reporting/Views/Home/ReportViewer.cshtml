@@ -1,0 +1,92 @@
+﻿@using DevExpress.AspNetCore
+
+@model CustomReportViewerModel
+
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+
+@functions {
+    public string GetAntiXsrfRequestToken()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
+}
+
+<script>
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+    function CustomizeLocalization(s, e) {
+        e.LoadMessages($.get('@Url.Content("/localization/devextreme/dx-analytics-core.ru.json")'));
+        e.LoadMessages($.get('@Url.Content("/localization/devextreme/dx-reporting.ru.json")'));
+    }
+
+    function WebDocumentViewer_BeforeRender(s, e) {
+        const token = getCookie("ocpp-user-token")
+        var myxsrf = "@GetAntiXsrfRequestToken()"
+
+        DevExpress.Analytics.Utils.fetchSetup.fetchSettings = {
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'RequestVerificationToken': myxsrf
+            }
+        };
+        
+        Globalize.locale('ru');
+        DevExpress.localization.locale('ru');
+
+        $(window).on('beforeunload', function (e) {
+            s.Close();
+        });
+    }
+</script>
+
+
+<input type="hidden" id="RequestVerificationToken" name="RequestVerificationToken" value="@GetAntiXsrfRequestToken()">
+
+<div style="position: absolute; left: 0; top: 0; right: 0; bottom: 0;">
+
+    @{
+        ViewData["Title"] = Model.ReportName;
+        var viewerRender = Html.DevExpress().WebDocumentViewer("DocumentViewer")
+        .ClientSideModelSettings(x => x.IncludeLocalization = false)
+        .ClientSideEvents(x => x.CustomizeLocalization("CustomizeLocalization"))
+        .ClientSideEvents(x =>
+        {
+            x.BeforeRender("WebDocumentViewer_BeforeRender");
+        })
+        .ClientSideModelSettings(clientSide =>
+        {
+            clientSide.IncludeLocalization = false;
+            clientSide.IncludeCldrData = false;
+            clientSide.IncludeCldrSupplemental = false;
+        })
+        .Height("100%")
+
+        .Bind(Model.ViewerModel);
+
+        @:@viewerRender.RenderHtml()
+    }
+
+</div>
+
+@section Scripts {
+    <script src="~/js/site.thirdparty.bundle.js"></script>
+
+    <link href="~/css/dx-reporting-skeleton-screen.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/viewer.part.bundle.css" />
+    <link rel="stylesheet" href="~/css/dx.material.blue.light.bundle.css" />
+    <script src="~/js/reporting.thirdparty.bundle.js"></script>
+    <script src="~/js/viewer.part.bundle.js"></script>
+
+    @viewerRender.RenderScripts()
+}
+
+
+@* https://github.com/DevExpress-Examples/AspNetCore.Reporting.BestPractices/blob/2023.1/AspNetCore.Reporting.MVC/Views/Home/DisplayReport.cshtml *@
+
+@* https://github.com/DevExpress-Examples/AspNetCore.Reporting.BestPractices#token-based-authentication *@
+
+@* https://github.com/DevExpress-Examples/AspNetCore.Reporting.BestPractices/blob/2023.1/AspNetCore.Reporting.MVC/Views/Home/DisplayReport.cshtml *@

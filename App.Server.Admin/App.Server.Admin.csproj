@@ -1,0 +1,67 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>disable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<AssemblyName>asbt.admin.server</AssemblyName>
+		<ServerGarbageCollection>true</ServerGarbageCollection>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+	</PropertyGroup>
+ 
+	<ItemGroup>
+	  <Compile Remove="BackgroundService\**" />
+	  <Compile Remove="logs\**" />
+	  <Content Remove="BackgroundService\**" />
+	  <Content Remove="logs\**" />
+	  <EmbeddedResource Remove="BackgroundService\**" />
+	  <EmbeddedResource Remove="logs\**" />
+	  <None Remove="BackgroundService\**" />
+	  <None Remove="logs\**" />
+	</ItemGroup>	
+	
+	<ItemGroup>
+		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.0.0" />
+		<PackageReference Include="AspNetCoreRateLimit" Version="5.0.0" />
+		<PackageReference Include="EFCoreSecondLevelCacheInterceptor" Version="4.1.1" />
+		<PackageReference Include="JsonDocumentPath" Version="1.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.1" />
+		
+		<PackageReference Include="Microsoft.Extensions.Identity.Core" Version="8.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="8.0.1" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.5.0" />
+
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="Serilog.AspNetCore" Version="8.0.0" />
+		<PackageReference Include="Serilog.Enrichers.Environment" Version="2.3.0" />
+		<PackageReference Include="Serilog.Sinks.Telegram.Alternative" Version="1.4.0" />
+		<PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
+
+		<PackageReference Include="EFCore.NamingConventions" Version="8.0.2" />
+		<PackageReference Include="Microsoft.OpenApi.OData" Version="1.5.0" />
+		<PackageReference Include="Microsoft.AspNetCore.OData" Version="8.2.3" />
+		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
+
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.1" />		
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.1" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>		
+	</ItemGroup>
+	
+	<ItemGroup>
+		<ProjectReference Include="..\App.Utils\App.Utils.csproj" />
+		<ProjectReference Include="..\App.Database\App.Database.csproj" />
+		<ProjectReference Include="..\App.Interfaces\App.Interfaces.csproj" />
+		<ProjectReference Include="..\App.Models\App.Models.csproj" />
+		<ProjectReference Include="..\App.OpenTelemetry\App.OpenTelemetry.csproj" />		
+		<ProjectReference Include="..\App.Repository\App.Repository.csproj" />
+		<ProjectReference Include="..\App.Utils\App.Utils.csproj" />
+	</ItemGroup>
+	
+</Project>

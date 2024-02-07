@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XtraReportsLayoutSerializer SerializerVersion="23.1.5.0" Ref="1" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v23.1, Version=23.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Name="Report" DisplayName="Report1" PageWidth="850" PageHeight="1100" Version="23.1" DataMember="Transactions" DataSource="#Ref-0" Font="Arial, 9.75pt">
+  <Bands>
+    <Item1 Ref="2" ControlType="TopMarginBand" Name="TopMargin" />
+    <Item2 Ref="3" ControlType="DetailBand" Name="Detail">
+      <Controls>
+        <Item1 Ref="4" ControlType="XRTable" Name="table1" SizeF="650,23" LocationFloat="0,0">
+          <Rows>
+            <Item1 Ref="5" ControlType="XRTableRow" Name="tableRow1" Weight="1">
+              <Cells>
+                <Item1 Ref="6" ControlType="XRTableCell" Name="tableCell1" Weight="1" Multiline="true" Text="tableCell1" Padding="2,2,0,0,100">
+                  <ExpressionBindings>
+                    <Item1 Ref="7" EventName="BeforePrint" PropertyName="Text" Expression="[amount]" />
+                  </ExpressionBindings>
+                </Item1>
+                <Item2 Ref="8" ControlType="XRTableCell" Name="tableCell2" Weight="1" Multiline="true" Text="tableCell2" Padding="2,2,0,0,100">
+                  <ExpressionBindings>
+                    <Item1 Ref="9" EventName="BeforePrint" PropertyName="Text" Expression="[charge_point_id]" />
+                  </ExpressionBindings>
+                </Item2>
+                <Item3 Ref="10" ControlType="XRTableCell" Name="tableCell3" Weight="1" Multiline="true" Text="tableCell3" Padding="2,2,0,0,100">
+                  <ExpressionBindings>
+                    <Item1 Ref="11" EventName="BeforePrint" PropertyName="Text" Expression="[charge_point_name]" />
+                  </ExpressionBindings>
+                </Item3>
+                <Item4 Ref="12" ControlType="XRTableCell" Name="tableCell4" Weight="1" Multiline="true" Text="tableCell4" Padding="2,2,0,0,100">
+                  <ExpressionBindings>
+                    <Item1 Ref="13" EventName="BeforePrint" PropertyName="Text" Expression="[connector_id]" />
+                  </ExpressionBindings>
+                </Item4>
+                <Item5 Ref="14" ControlType="XRTableCell" Name="tableCell5" Weight="1" Multiline="true" Text="tableCell5" Padding="2,2,0,0,100">
+                  <ExpressionBindings>
+                    <Item1 Ref="15" EventName="BeforePrint" PropertyName="Text" Expression="[create_user]" />
+                  </ExpressionBindings>
+                </Item5>
+                <Item6 Ref="16" ControlType="XRTableCell" Name="tableCell6" Weight="1" Multiline="true" Text="tableCell6" Padding="2,2,0,0,100">
+                  <ExpressionBindings>
+                    <Item1 Ref="17" EventName="BeforePrint" PropertyName="Text" Expression="[id]" />
+                  </ExpressionBindings>
+                </Item6>
+                <Item7 Ref="18" ControlType="XRTableCell" Name="tableCell7" Weight="1" Multiline="true" Text="tableCell7" Padding="2,2,0,0,100">
+                  <ExpressionBindings>
+                    <Item1 Ref="19" EventName="BeforePrint" PropertyName="Text" Expression="[meter_start]" />
+                  </ExpressionBindings>
+                </Item7>
+                <Item8 Ref="20" ControlType="XRTableCell" Name="tableCell8" Weight="1" Multiline="true" Text="tableCell8" Padding="2,2,0,0,100">
+                  <ExpressionBindings>
+                    <Item1 Ref="21" EventName="BeforePrint" PropertyName="Text" Expression="[meter_stop]" />
+                  </ExpressionBindings>
+                </Item8>
+                <Item9 Ref="22" ControlType="XRTableCell" Name="tableCell9" Weight="1" Multiline="true" Text="tableCell9" Padding="2,2,0,0,100">
+                  <ExpressionBindings>
+                    <Item1 Ref="23" EventName="BeforePrint" PropertyName="Text" Expression="[start_result]" />
+                  </ExpressionBindings>
+                </Item9>
+                <Item10 Ref="24" ControlType="XRTableCell" Name="tableCell10" Weight="1" Multiline="true" Text="tableCell10" Padding="2,2,0,0,100">
+                  <ExpressionBindings>
+                    <Item1 Ref="25" EventName="BeforePrint" PropertyName="Text" Expression="[start_tag_id]" />
+                  </ExpressionBindings>
+                </Item10>
+                <Item11 Ref="26" ControlType="XRTableCell" Name="tableCell11" Weight="1" Multiline="true" Text="tableCell11" Padding="2,2,0,0,100">
+                  <ExpressionBindings>
+                    <Item1 Ref="27" EventName="BeforePrint" PropertyName="Text" Expression="[start_time]" />
+                  </ExpressionBindings>
+                </Item11>
+                <Item12 Ref="28" ControlType="XRTableCell" Name="tableCell12" Weight="1" Multiline="true" Text="tableCell12" Padding="2,2,0,0,100">
+                  <ExpressionBindings>
+                    <Item1 Ref="29" EventName="BeforePrint" PropertyName="Text" Expression="[stop_reason]" />
+                  </ExpressionBindings>
+                </Item12>
+                <Item13 Ref="30" ControlType="XRTableCell" Name="tableCell13" Weight="1" Multiline="true" Text="tableCell13" Padding="2,2,0,0,100">
+                  <ExpressionBindings>
+                    <Item1 Ref="31" EventName="BeforePrint" PropertyName="Text" Expression="[stop_tag_id]" />
+                  </ExpressionBindings>
+                </Item13>
+                <Item14 Ref="32" ControlType="XRTableCell" Name="tableCell14" Weight="1" Multiline="true" Text="tableCell14" Padding="2,2,0,0,100">
+                  <ExpressionBindings>
+                    <Item1 Ref="33" EventName="BeforePrint" PropertyName="Text" Expression="[stop_time]" />
+                  </ExpressionBindings>
+                </Item14>
+                <Item15 Ref="34" ControlType="XRTableCell" Name="tableCell15" Weight="1" Multiline="true" Text="tableCell15" Padding="2,2,0,0,100">
+                  <ExpressionBindings>
+                    <Item1 Ref="35" EventName="BeforePrint" PropertyName="Text" Expression="[uid]" />
+                  </ExpressionBindings>
+                </Item15>
+              </Cells>
+            </Item1>
+          </Rows>
+        </Item1>
+        <Item2 Ref="36" ControlType="XRLabel" Name="label1" Multiline="true" Text="label1" SizeF="100,23" LocationFloat="243.229,39.583" Padding="2,2,0,0,100" />
+      </Controls>
+    </Item2>
+    <Item3 Ref="37" ControlType="BottomMarginBand" Name="BottomMargin" />
+  </Bands>
+  <ComponentStorage>
+    <Item1 Ref="0" ObjectType="DevExpress.DataAccess.Sql.SqlDataSource,DevExpress.DataAccess.v23.1" Name="Northwind1" Base64="PFNxbERhdGFTb3VyY2UgTmFtZT0iTm9ydGh3aW5kMSI+PENvbm5lY3Rpb24gTmFtZT0iREJDb25uZWN0aW9uIiBGcm9tQXBwQ29uZmlnPSJ0cnVlIiAvPjxRdWVyeSBUeXBlPSJTZWxlY3RRdWVyeSIgTmFtZT0iVHJhbnNhY3Rpb25zIj48VGFibGVzPjxUYWJsZSBOYW1lPSJ0Yl90cmFuc2FjdGlvbnMiIC8+PC9UYWJsZXM+PENvbHVtbnM+PEFsbENvbHVtbnMgVGFibGU9InRiX3RyYW5zYWN0aW9ucyIgLz48L0NvbHVtbnM+PC9RdWVyeT48UmVzdWx0U2NoZW1hPjxEYXRhU2V0IE5hbWU9Ik5vcnRod2luZDEiPjxWaWV3IE5hbWU9IlRyYW5zYWN0aW9ucyI+PEZpZWxkIE5hbWU9ImlkIiBUeXBlPSJJbnQzMiIgLz48RmllbGQgTmFtZT0idWlkIiBUeXBlPSJTdHJpbmciIC8+PEZpZWxkIE5hbWU9ImNoYXJnZV9wb2ludF9uYW1lIiBUeXBlPSJTdHJpbmciIC8+PEZpZWxkIE5hbWU9ImNvbm5lY3Rvcl9pZCIgVHlwZT0iSW50MzIiIC8+PEZpZWxkIE5hbWU9ImNoYXJnZV9wb2ludF9pZCIgVHlwZT0iSW50MzIiIC8+PEZpZWxkIE5hbWU9InN0YXJ0X3RhZ19pZCIgVHlwZT0iU3RyaW5nIiAvPjxGaWVsZCBOYW1lPSJzdGFydF90aW1lIiBUeXBlPSJEYXRlVGltZSIgLz48RmllbGQgTmFtZT0ibWV0ZXJfc3RhcnQiIFR5cGU9IkRvdWJsZSIgLz48RmllbGQgTmFtZT0ic3RhcnRfcmVzdWx0IiBUeXBlPSJTdHJpbmciIC8+PEZpZWxkIE5hbWU9InN0b3BfdGFnX2lkIiBUeXBlPSJTdHJpbmciIC8+PEZpZWxkIE5hbWU9InN0b3BfdGltZSIgVHlwZT0iRGF0ZVRpbWUiIC8+PEZpZWxkIE5hbWU9Im1ldGVyX3N0b3AiIFR5cGU9IkRvdWJsZSIgLz48RmllbGQgTmFtZT0ic3RvcF9yZWFzb24iIFR5cGU9IlN0cmluZyIgLz48RmllbGQgTmFtZT0iY3JlYXRlX3VzZXIiIFR5cGU9Ikd1aWQiIC8+PEZpZWxkIE5hbWU9ImFtb3VudCIgVHlwZT0iSW50MzIiIC8+PC9WaWV3PjwvRGF0YVNldD48L1Jlc3VsdFNjaGVtYT48Q29ubmVjdGlvbk9wdGlvbnMgQ2xvc2VDb25uZWN0aW9uPSJ0cnVlIiAvPjwvU3FsRGF0YVNvdXJjZT4=" />
+  </ComponentStorage>
+</XtraReportsLayoutSerializer>

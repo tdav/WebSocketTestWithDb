@@ -1,0 +1,50 @@
+﻿@using DevExpress.AspNetCore
+@using DevExpress.DashboardWeb
+@using DevExpress.DashboardAspNetCore
+
+@model CustomReportViewerModel
+
+@section Scripts {
+    <script src="~/js/site.dashboard.min.js"></script>
+}
+
+@section Css {
+    <link href="~/css/site.dashboard.min.css" rel="stylesheet" />
+
+}
+
+<script type="text/javascript">
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+    function onBeforeRender(dashboardControl) {
+        const token = getCookie("ocpp-user-token")
+        dashboardControl.remoteService.headers = { "Authorization": "Bearer " + token };
+        
+        Globalize.locale('ru');        
+        DevExpress.localization.locale('ru');
+    }
+
+    function onInitializing(s, e) {
+        DevExpress.Analytics.Localization.loadMessages($.get('@Url.Content("/localization/devextreme/dx-dashboard.ru.json")'));
+        DevExpress.Analytics.Localization.loadMessages($.get('@Url.Content("/localization/devextreme/dx-analytics-core.ru.json")'));
+    }
+
+</script>
+
+<div style="position: absolute; left: 0; top: 0; right: 0; bottom: 0;">
+    @(Html.DevExpress().Dashboard("dashboardControl1")        
+        .WorkingMode(WorkingMode.ViewerOnly)
+        .ControllerName("DefaultDashboard")
+        .Width("100%")
+        .Height("100%")
+        .InitialDashboardId(Model.ReportName)
+        .OnInitializing("onInitializing")
+        .OnBeforeRender("onBeforeRender")
+        )
+</div>
+
+@* https://github.com/DevExpress-Examples/aspnet-core-dashboard-jwt-authentication/blob/23.1.4%2B/CS/Startup.cs *@
