@@ -7,7 +7,7 @@ namespace App.Repository
 {
     public static class DependencyInjection
     {
-        public static void AddMyOcppService(this IServiceCollection services)
+        public static void AddMyService(this IServiceCollection services)
         {
             services.AddScoped<IOcppHttpContextAccessorExtensions, OcppHttpContextAccessorExtensions>();
 

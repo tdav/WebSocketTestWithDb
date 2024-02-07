@@ -96,11 +96,6 @@ namespace App.Repository.Services.v1
 
                     var token = CreateToken(authClaims);
 
-                    //var refreshToken = GenerateRefreshToken();
-                    //user.RefreshToken = refreshToken;
-                    //user.RefreshTokenExpiryTime = DateTime.Now.AddDays(vars.RefreshTokenValidityInDays);
-                    //await userManager.UpdateAsync(user);
-
                     var res = new TokenModel
                     {
                         Id = user.Id.ToString(),
@@ -110,7 +105,6 @@ namespace App.Repository.Services.v1
                         Patronymic = user.Patronymic,
                         Accesses = accesses,
                         Token = new JwtSecurityTokenHandler().WriteToken(token),
-                        //  RefreshToken = refreshToken
                     };
 
 

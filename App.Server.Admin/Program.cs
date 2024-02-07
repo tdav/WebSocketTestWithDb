@@ -1,7 +1,7 @@
 using App.Database;
 using App.Models;
+using App.Repository;
 using App.Server.Admin.Services;
-using App.Utils;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.OData;
 using Newtonsoft.Json.Serialization;
@@ -46,7 +46,7 @@ namespace App.Server.Admin
             builder.Services.ApiMyVersion();
             builder.Services.AddMySwagger();
             builder.Services.AddSerilog();
-            builder.Services.AddMyResponseCompression();
+            builder.Services.AddMyService();
 
             builder.Services.AddCors(options =>
             {
@@ -65,15 +65,12 @@ namespace App.Server.Admin
                 };
             });
 
-            builder.Services.AddMyVars(builder.Configuration);
+
+
             builder.Services.AddMyAuthentication(builder.Configuration);
             builder.Services.AddMemoryCache();
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddMyDatabaseService(builder.Configuration);
-
-            builder.Services.AddScoped<IMiddlewareHandler, MiddlewareHandler>();
-
-            builder.Services.AddScoped<ICRestClient, CRestClient>();
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             builder.Services.Configure<Vars>(builder.Configuration.GetSection("Vars"));
@@ -90,9 +87,7 @@ namespace App.Server.Admin
             app.UseWebSockets();
             app.UseMiddleware<WebSocketMiddleware>();
 
-            app.UseResponseCaching();
             app.UseMySwagger();
-            app.UseMyStaticFiles();
 
             app.UseRouting();
             app.UseCors("AllowAllHeaders");
@@ -102,7 +97,6 @@ namespace App.Server.Admin
             app.MapControllers();
 
             app.UseSerilogRequestLogging();
-            app.UseResponseCompression();
             app.UpdateMigrateDatabase();
 
             app.Run();

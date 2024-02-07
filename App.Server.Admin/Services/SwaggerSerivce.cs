@@ -110,7 +110,6 @@ namespace App.Server.Admin.Services
         {
             var provider = app.ApplicationServices.GetService<IApiVersionDescriptionProvider>();
 
-            app.UseSwaggerAuthorized();
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {

@@ -1,8 +1,8 @@
-﻿using App.Repository.Models;
+﻿using App.Database;
+using App.Repository.Models;
 using App.Utils;
 using System.Net;
 using System.Net.WebSockets;
-
 
 namespace App.Server.Admin.Services
 {
@@ -30,7 +30,7 @@ namespace App.Server.Admin.Services
             }
         }
 
-        private readonly IMiddlewareHandler middlewareHandler;
+
         private readonly RequestDelegate next;
 
         public WebSocketMiddleware(RequestDelegate next)
@@ -38,7 +38,7 @@ namespace App.Server.Admin.Services
             this.next = next;
         }
 
-        public async Task Invoke(HttpContext context, ILogger<WebSocketMiddleware> logger, IMiddlewareHandler middlewareHandler)
+        public async Task Invoke(HttpContext context, ILogger<WebSocketMiddleware> logger, MyDbContext db)
         {
             var chargepointIdentifier = context.Request.Path.Value.Split('/').LastOrDefault();
 
@@ -101,7 +101,7 @@ namespace App.Server.Admin.Services
                             chargePointStatus.WebSocket = webSocket;
                             var socketFinishedTcs = new TaskCompletionSource<string>();
 
-                            await middlewareHandler.HandlerAsync(chargepointIdentifier, socketFinishedTcs);
+                            await HandlerAsync(chargepointIdentifier);
 
                             await socketFinishedTcs.Task;
                         }
@@ -113,14 +113,18 @@ namespace App.Server.Admin.Services
                         context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     }
                 }
-
             }
             else
             {
-                logger.LogError($"OCPPMiddleware => chargepoint: {context.Request.Path} топилмади");
-                context.Response.StatusCode = (int)HttpStatusCode.PreconditionFailed;
+                await next.Invoke(context);
             }
+        }
 
+
+        public Task HandlerAsync(string Name)
+        {
+            throw new NotImplementedException();
         }
     }
+
 }
