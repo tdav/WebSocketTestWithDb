@@ -92,6 +92,7 @@ namespace App.Server.Admin.Services
                             ChargePointStatusDict.Add(chargepointIdentifier, chargePointStatus);
                             statusSuccess = true;
                         }
+
                     }
                     catch (Exception exp)
                     {
